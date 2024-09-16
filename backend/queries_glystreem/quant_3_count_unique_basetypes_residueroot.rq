@@ -1,0 +1,19 @@
+#title: Count unique basetypees residueroot
+#comment: Count of all unique base types found in ResidueRoot % Query 3.3 (b)
+
+PREFIX glystreem: <https://glyconnect.expasy.org/rdf/structures#>
+PREFIX modl: <https://archive.org/services/purl/domain/modular_ontology_design_library/>
+
+select (count(distinct ?name) as ?count_name) WHERE {
+    ?root a glystreem:ResidueRoot .
+    ?root glystreem:hasBase ?base1 .
+    ?base1 glystreem:baseName ?name .
+    Filter not exists # MINUS
+    {
+        ?glycan a glystreem:Glycan ;
+            glystreem:hasGlycanBag ?glycanbag .
+        ?glycanbagitem modl:bagitemOf ?glcyanbag .
+        ?glycanbagitem glystreem:hasItemRoot ?root .
+    }
+}
+

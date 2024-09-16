@@ -1,0 +1,54 @@
+#title: Query 1.1
+#comment: Choose COVID, SPIKE, Glycans, Position, Res_Count & Core (when N-linked)
+
+PREFIX up: <http://purl.uniprot.org/core/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX sio: <http://semanticscience.org/resource/>
+PREFIX glycan: <http://purl.jp/bio/12/glyco/glycan#>
+PREFIX faldo: <http://biohackathon.org/resource/faldo#>
+PREFIX glyco: <http://purl.jp/bio/12/glyco/conjugate#>
+PREFIX gcrp: <https://purl.org/glyconnect/referenced_protein>
+PREFIX glystreem: <https://glyconnect.expasy.org/rdf/structures#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX modl: <https://archive.org/services/purl/domain/modular_ontology_design_library/>
+
+SELECT DISTINCT ?glycoprotein ?position (count(distinct ?glycanid) as ?structure_count) (GROUP_CONCAT(distinct ?glycanid;SEPARATOR=", ") as ?glycans)
+WHERE
+{
+# Pull info re disease/protein/site/glycans from GlyConnect
+    service <http://hayes-Latitude-7410:7200/repositories/GlyConnect-2022-03-23>
+    {
+# Alternative address for GlyConnect  (remote)
+#    service <https://glyconnect.expasy.org/sparql> {
+    ?glycosite faldo:position ?position .
+    ?specific_glycosite faldo:location ?glycosite .
+    ?glycoprotein glyco:glycosylated_at ?specific_glycosite .
+    ?structure glyco:glycosylates_at ?specific_glycosite .
+    ?ref_conjugate glyco:has_protein_part ?glycoprotein .
+    ?ref_conjugate glycan:has_association ?ref_conjugate_disease .
+# Only disease with the name COVID
+    ?ref_conjugate_disease sio:SIO_000628 ?disease .
+    ?disease rdfs:label ?disease_name .
+    FILTER REGEX(STR(?disease_name), "covid", "i") .
+# Create the correct UniProt IRI for glycoprotein
+    BIND(IRI(REPLACE(STR(?glycoprotein), "https://purl.org/glyconnect/referenced_protein/", "https://purl.org/glyconnect/protein/")) as ?uniprot_prot)
+    BIND(REPLACE(STR(?structure), "https://purl.org/glyconnect/structure/", "") as ?glycanid)
+    BIND(IRI(REPLACE(STR(?structure), "https://purl.org/glyconnect/structure/", "https://glyconnect.expasy.org/rdf/structures#glycangct")) as ?glycan)
+    ?uniprot_prot glyco:has_protein ?label .
+    BIND(SUBSTR(STR(?label),34) AS ?accession)
+# There are two proteins associated with COVID, Spike protein (P0DTC2) & ACE-2 (Q9BYF1). Only interested in the spike protein at present
+    FILTER(?accession NOT IN("Q9BYF1-1"))
+    }
+# Pull info re glycan structure from GlySTreeM
+# Only glycan IDs with a structure & N-linked
+    ?glycan a glystreem:Glycan ;
+            glystreem:id ?glycanGCTid ;
+            glystreem:hasResidueSet/^modl:bagitemOf ?residue ;
+            glystreem:glycan_type "N-Linked" ;
+            glystreem:glycan_core ?glycanCore .
+}
+# 'Group By' aggregate depends on the select statment used
+group by ?glycoprotein ?position
+order by asc(xsd:integer(?position)) asc(xsd:integer(?glycanid))
+

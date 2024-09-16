@@ -1,0 +1,31 @@
+#title:GlycoProtein_UniProt_Site_Glycan_Disease
+#comment: Select all glycosylations (glycan, protein, position) with their associated disease where the name contains 'cancer' 
+#comment: 
+#comment: Modify this query by replcing 'cancer' with your disease name of choice at the indicated place in the query
+#comment:
+#comment:The glycoprotein ID refers to GlyConnect ID. https://glyconnect.expasy.org/all/proteins/1661 (replace with prot ID of interest)
+#comment:The isoform ID refers to UniProt ID. https://www.uniprot.org/uniprotkb/A0A075B7F1/entry (replace with UniProt ID of interest)
+#comment:The structure ID refers to GlyConnect ID. https://glyconnect.expasy.org/all/structures/3423 (replace with Structure ID of interest)
+#comment:If there is no structure cartoon, this implies that only the composition was experimentally deduced - refer to the associated reference for more details
+#comment:The disease ID refers to GlyConnect ID. https://glyconnect.expasy.org/all/diseases/58 (replace with Disease ID of interest)
+PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#>
+PREFIX faldo:<http://biohackathon.org/resource/faldo#>
+PREFIX glyco:<http://purl.jp/bio/12/glyco/conjugate#>
+PREFIX glycan:<http://purl.jp/bio/12/glyco/glycan#>
+PREFIX sio:<http://semanticscience.org/resource/>
+
+SELECT DISTINCT ?glycoprotein ?isoform ?position ?structure ?disease ?disease_name WHERE 
+{
+    ?glycosite faldo:reference ?isoform .
+    ?glycosite faldo:position ?position .
+    ?specific_glycosite faldo:location ?glycosite .
+    ?glycoprotein glyco:glycosylated_at ?specific_glycosite .
+    ?structure glyco:glycosylates_at ?specific_glycosite .
+    ?ref_conjugate glyco:has_protein_part ?glycoprotein .
+    ?ref_conjugate glycan:has_association ?ref_conjugate_disease .
+    ?ref_conjugate_disease sio:SIO_000628 ?disease .
+    ?disease rdfs:label ?disease_name .
+    # REPLACE DISEASE NAME IN THE FOLLWING LINE
+    FILTER REGEX(STR(?disease_name), "cancer", "i") .
+}
+ORDER BY ?glycoprotein ?position

@@ -1,0 +1,15 @@
+#title:GlycoProtein_UniProt_GlycosylationSite
+#comment: Get all Glyconnect proteins, their Uniprot reference isoform & the AA residue at which they are glycosylated
+#comment:
+#comment:The glycoprotein ID refers to GlyConnect ID. https://glyconnect.expasy.org/all/proteins/1661 (replace with prot ID of interest)
+#comment:The isoform ID refers to UniProt ID. https://www.uniprot.org/uniprotkb/A0A075B7F1/entry (replace with UniProt ID of interest)
+PREFIX faldo:<http://biohackathon.org/resource/faldo#>
+PREFIX glyco:<http://purl.jp/bio/12/glyco/conjugate#>
+
+SELECT DISTINCT ?glycoprotein ?isoform ?glycosite WHERE 
+{
+    ?glycosite faldo:reference ?isoform . 
+    ?specificglycosite faldo:location ?glycosite .
+    ?glycoprotein glyco:glycosylated_at ?specificglycosite .
+}
+ORDER BY ?isoform

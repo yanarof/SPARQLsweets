@@ -1,0 +1,14 @@
+#title: Count structures no glycancore
+#comment: Count of all structures that have no associated GlycoCT string (therefore no GlycanCore) % Query 3.13
+
+PREFIX glystreem: <https://glyconnect.expasy.org/rdf/structures#>
+
+select distinct (count(distinct ?glycanid) as ?countid) where
+{
+  ?glycan a glystreem:Glycan ;
+    glystreem:id ?glycanid .
+  FILTER NOT EXISTS
+  {
+    ?glycan glystreem:hasGlycanCore ?glycancore .
+  }
+}

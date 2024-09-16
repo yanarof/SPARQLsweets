@@ -1,0 +1,67 @@
+#title: Structures nlinked glcnac2man3_core
+#comment: Display IDs for structures matching exactly N-linked GlcNAc2Man3 core % Query 2.1
+
+PREFIX glystreem: <https://glyconnect.expasy.org/rdf/structures#>
+PREFIX modl: <https://archive.org/services/purl/domain/modular_ontology_design_library/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+select distinct ?glycanid where
+# select (count(distinct ?glycanid) as ?glycanid_count) WHERE
+{
+  # 1st GlcNAc
+  ?glycan a glystreem:Glycan ;
+  glystreem:hasGlycanCore ?glycancore ;
+  glystreem:id ?glycanid .
+  ?glycancore glystreem:hasCoreRoot ?root .
+  ?root a glystreem:ResidueRoot ;
+  glystreem:hasBase ?base1 ;
+  glystreem:hasSubstituent ?subst1 ;
+  modl:treehasChild ?child02 .
+  ?base1 glystreem:baseName "dglc-HEX-1:5" .
+
+  FILTER NOT EXISTS
+  {
+    ?root modl:treehasChild ?child02_second .
+    FILTER (?child02_second NOT IN (?child02))
+  } # RESULT_COUNT = 1460
+  # 2nd GlcNAc
+  ?child02 glystreem:hasBase ?child02_base ;
+  glystreem:hasSubstituent ?child02_subst .
+  ?child02_base glystreem:baseName "dglc-HEX-1:5" .
+  # 1st Man
+  ?child02 modl:treehasChild ?child03 .
+  ?child03 glystreem:hasBase ?child03_base .
+  ?child03_base glystreem:baseName "dman-HEX-1:5" .
+  #   # 2nd & 3rd Man (no bisecting GlcNAc)
+  ?child03 modl:treehasChild ?child04_a ,?child04_b .
+  # Name 2nd & 3rd Man
+  ?child04_a glystreem:hasBase ?child04_a_base .
+  ?child04_a_base glystreem:baseName "dman-HEX-1:5" .
+
+  ?child04_b glystreem:hasBase ?child04_b_base .
+  ?child04_b_base glystreem:baseName "dman-HEX-1:5" .
+
+  FILTER (?child04_a != ?child04_b)
+  FILTER NOT EXISTS
+  {
+    ?child03 modl:treehasChild ?child04_c .
+    FILTER (?child04_c NOT IN (?child04_a, ?child04_b))
+  } # RESULT_COUNT = 1145
+
+
+  # No extensions on 3rd & 4th Man
+  FILTER NOT EXISTS
+  {
+    ?child04_a modl:treehasChild ?child04_a_NOTEXISTS .
+  }
+  FILTER NOT EXISTS
+  {
+    ?child04_b modl:treehasChild ?child04_b_NOTEXISTS .
+  } # RESULTS_COUNT = 71
+  # Remove BAG
+  FILTER NOT EXISTS
+  {
+    ?glycan glystreem:hasGlycanBag ?glycanbag .
+  } # RESULTS_COUNT = 2
+
+} ORDER BY ASC(xsd:integer(?glycanid))

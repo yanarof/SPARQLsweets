@@ -1,0 +1,22 @@
+#title: Query 1.2
+#comment:
+PREFIX up: <http://purl.uniprot.org/core/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX faldo: <http://biohackathon.org/resource/faldo#>
+SELECT distinct
+    ?protein ?position ?comment
+WHERE
+{
+SERVICE <https://sparql.uniprot.org/>
+    {
+        ?protein a up:Protein ;
+            up:annotation ?annotation .
+        ?annotation a up:Glycosylation_Annotation  .
+        FILTER(?protein in (uri("http://purl.uniprot.org/uniprot/P0DTC2"), uri("http://purl.uniprot.org/uniprot/Q2QYE1")))
+        ?annotation up:range ?range .
+        ?annotation rdfs:comment ?comment .
+        ?range faldo:begin ?begin .
+        ?begin faldo:position ?position .
+    }
+    FILTER(REGEX(STR(?comment), "N-linked", "i"))
+} order by ?position

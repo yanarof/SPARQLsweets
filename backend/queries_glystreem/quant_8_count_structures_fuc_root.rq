@@ -1,0 +1,11 @@
+#title: Count structures fuc root
+#comment: Count of all structures that start with Fucose % Query 3.8
+
+PREFIX glystreem: <https://glyconnect.expasy.org/rdf/structures#>
+
+select (count(distinct ?glycanid)as ?glycanid_count) where
+{
+    ?glycan a glystreem:Glycan ;
+    glystreem:id ?glycanid ;
+    glystreem:hasGlycanCore/glystreem:hasCoreRoot/glystreem:hasBase/glystreem:baseName "lgal-HEX-1:5|6:d" .
+}

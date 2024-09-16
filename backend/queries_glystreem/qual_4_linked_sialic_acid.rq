@@ -1,0 +1,21 @@
+#title: Linked sialic Acid
+#comment: Does the database contain any structures with two (or more) sialyl acids consecutively linked? % Query 2.4 (b)
+
+PREFIX glystreem: <https://glyconnect.expasy.org/rdf/structures#>
+PREFIX modl: <https://archive.org/services/purl/domain/modular_ontology_design_library/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+select distinct ?glycanid where
+{
+    ?glycan a glystreem:Glycan ;
+    glystreem:id ?glycanid ;
+    glystreem:hasResidueSet ?residueset .
+    ?residue01 modl:bagitemOf ?residueset ;
+    glystreem:hasBase ?base01 ;
+    modl:treehasChild ?residue02 .
+    ?base01 glystreem:baseName "dgro-dgal-NON-2:6|1:a|2:keto|3:d" .
+
+    ?residue02 modl:bagitemOf ?residueset ;
+    glystreem:hasBase ?base02 .
+    ?base02 glystreem:baseName "dgro-dgal-NON-2:6|1:a|2:keto|3:d" .
+}order by (xsd:integer(?glycanid))

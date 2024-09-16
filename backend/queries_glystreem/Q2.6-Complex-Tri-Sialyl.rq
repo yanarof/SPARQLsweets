@@ -1,0 +1,131 @@
+#title: Q2.6 Complex-Tri-Sialyl
+#comment: Complex & Tri-antennary
+#comment: glycoCT = "RES\n1b:x-dglc-HEX-1:5\n2b:x-dglc-HEX-1:5\n3b:x-dman-HEX-1:5\n4b:x-dman-HEX-1:5\n5b:x-dglc-HEX-1:5\n6b:x-dman-HEX-1:5\n7b:x-dglc-HEX-1:5\n8b:x-dglc-HEX-1:5\n9s:n-acetyl\n10s:n-acetyl\n11s:n-acetyl\n12s:n-acetyl\n13s:n-acetyl\nLIN\n1:1o(-1+1)2d\n2:2o(-1+1)3d\n3:3o(-1+1)4d\n4:4o(-1+1)5d\n5:3o(-1+1)6d\n6:6o(-1+1)7d\n7:6o(-1+1)8d\n8:1d(2+1)9n\n9:2d(2+1)10n\n10:5d(2+1)11n\n11:7d(2+1)12n\n12:8d(2+1)13n"
+
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX modl: <https://archive.org/services/purl/domain/modular_ontology_design_library/>
+PREFIX glystreem: <https://glyconnect.expasy.org/rdf/structures#>
+SELECT DISTINCT ?glycanid
+WHERE {
+   ?glycan <https://glyconnect.expasy.org/rdf/structures#hasResidueSet> ?resSet .
+   ?resSet ^modl:bagitemOf/glystreem:composition "NeuAc" .
+   ?glycan <https://glyconnect.expasy.org/rdf/structures#id> ?glycanid .
+   ?var9 <https://archive.org/services/purl/domain/modular_ontology_design_library/bagitemOf> ?resSet .
+   ?var10 <https://archive.org/services/purl/domain/modular_ontology_design_library/treehasParent> ?var9 .
+   ?var19 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://glyconnect.expasy.org/rdf/structures#Substituent> .
+   ?var14 <https://glyconnect.expasy.org/rdf/structures#composition> "Hex"^^<http://www.w3.org/2001/XMLSchema#string> .
+   ?var11 <https://glyconnect.expasy.org/rdf/structures#composition> "Hex"^^<http://www.w3.org/2001/XMLSchema#string> .
+   ?var2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://glyconnect.expasy.org/rdf/structures#Base> .
+   ?var12 <https://archive.org/services/purl/domain/modular_ontology_design_library/treehasChild> ?var13 .
+   ?var17 <https://glyconnect.expasy.org/rdf/structures#subAnomerConnection> "1"^^<http://www.w3.org/2001/XMLSchema#string> .
+   ?var9 <https://glyconnect.expasy.org/rdf/structures#composition> "HexNAc"^^<http://www.w3.org/2001/XMLSchema#string> .
+   ?var20 <https://glyconnect.expasy.org/rdf/structures#subAnomerConnection> "1"^^<http://www.w3.org/2001/XMLSchema#string> .
+   ?var21 <https://glyconnect.expasy.org/rdf/structures#subParentAnomerConnection> "2"^^<http://www.w3.org/2001/XMLSchema#string> .
+   ?var6 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://glyconnect.expasy.org/rdf/structures#Base> .
+   ?var11 <https://archive.org/services/purl/domain/modular_ontology_design_library/treehasParent> ?var10 .
+   ?var13 <https://glyconnect.expasy.org/rdf/structures#hasBase> ?var5 .
+   ?var7 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://glyconnect.expasy.org/rdf/structures#Base> .
+   ?var9 <https://glyconnect.expasy.org/rdf/structures#hasBase> ?var1 .
+   ?var7 <https://glyconnect.expasy.org/rdf/structures#baseAnomerConnection> "1"^^<http://www.w3.org/2001/XMLSchema#string> .
+   ?var21 <https://glyconnect.expasy.org/rdf/structures#subAnomerConnection> "1"^^<http://www.w3.org/2001/XMLSchema#string> .
+   ?var15 <https://glyconnect.expasy.org/rdf/structures#hasBase> ?var7 .
+   ?var21 <https://glyconnect.expasy.org/rdf/structures#subName> "n-acetyl"^^<http://www.w3.org/2001/XMLSchema#string> .
+   ?var18 <https://glyconnect.expasy.org/rdf/structures#subName> "n-acetyl"^^<http://www.w3.org/2001/XMLSchema#string> .
+   ?var13 <https://glyconnect.expasy.org/rdf/structures#composition> "HexNAc"^^<http://www.w3.org/2001/XMLSchema#string> .
+   ?var10 <https://glyconnect.expasy.org/rdf/structures#hasBase> ?var2 .
+   ?var10 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://glyconnect.expasy.org/rdf/structures#Residue> .
+   ?var5 <https://glyconnect.expasy.org/rdf/structures#baseAnomerConnection> "1"^^<http://www.w3.org/2001/XMLSchema#string> .
+   ?var12 <https://glyconnect.expasy.org/rdf/structures#hasBase> ?var4 .
+   ?var16 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://glyconnect.expasy.org/rdf/structures#Residue> .
+   ?var19 <https://glyconnect.expasy.org/rdf/structures#subParentAnomerConnection> "2"^^<http://www.w3.org/2001/XMLSchema#string> .
+   ?var15 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://glyconnect.expasy.org/rdf/structures#Residue> .
+   ?var9 <https://glyconnect.expasy.org/rdf/structures#hasSubstituent> ?var17 .
+   ?var1 <https://glyconnect.expasy.org/rdf/structures#baseName> "dglc-HEX-1:5"^^<http://www.w3.org/2001/XMLSchema#string> .
+   ?var14 <https://archive.org/services/purl/domain/modular_ontology_design_library/treehasChild> ?var16 .
+   ?var9 <https://archive.org/services/purl/domain/modular_ontology_design_library/treehasChild> ?var10 .
+   ?var1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://glyconnect.expasy.org/rdf/structures#Base> .
+   ?var12 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://glyconnect.expasy.org/rdf/structures#Residue> .
+   ?var19 <https://glyconnect.expasy.org/rdf/structures#subAnomerConnection> "1"^^<http://www.w3.org/2001/XMLSchema#string> .
+   ?var11 <https://glyconnect.expasy.org/rdf/structures#hasBase> ?var3 .
+   ?var5 <https://glyconnect.expasy.org/rdf/structures#baseName> "dglc-HEX-1:5"^^<http://www.w3.org/2001/XMLSchema#string> .
+   ?var6 <https://glyconnect.expasy.org/rdf/structures#baseAnomerConnection> "1"^^<http://www.w3.org/2001/XMLSchema#string> .
+   ?var14 <https://glyconnect.expasy.org/rdf/structures#hasBase> ?var6 .
+   ?var16 <https://archive.org/services/purl/domain/modular_ontology_design_library/treehasParent> ?var14 .
+   ?var19 <https://glyconnect.expasy.org/rdf/structures#subName> "n-acetyl"^^<http://www.w3.org/2001/XMLSchema#string> .
+   ?var17 <https://glyconnect.expasy.org/rdf/structures#subParentAnomerConnection> "2"^^<http://www.w3.org/2001/XMLSchema#string> .
+   ?var20 <https://glyconnect.expasy.org/rdf/structures#subParentAnomerConnection> "2"^^<http://www.w3.org/2001/XMLSchema#string> .
+   ?var16 <https://glyconnect.expasy.org/rdf/structures#hasSubstituent> ?var21 .
+   ?var3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://glyconnect.expasy.org/rdf/structures#Base> .
+   ?var13 <https://archive.org/services/purl/domain/modular_ontology_design_library/treehasParent> ?var12 .
+   ?var8 <https://glyconnect.expasy.org/rdf/structures#baseAnomerConnection> "1"^^<http://www.w3.org/2001/XMLSchema#string> .
+   ?var2 <https://glyconnect.expasy.org/rdf/structures#baseName> "dglc-HEX-1:5"^^<http://www.w3.org/2001/XMLSchema#string> .
+   ?var11 <https://archive.org/services/purl/domain/modular_ontology_design_library/treehasChild> ?var14 .
+   ?var18 <https://glyconnect.expasy.org/rdf/structures#subParentAnomerConnection> "2"^^<http://www.w3.org/2001/XMLSchema#string> .
+   ?var14 <https://archive.org/services/purl/domain/modular_ontology_design_library/treehasParent> ?var11 .
+   ?var10 <https://archive.org/services/purl/domain/modular_ontology_design_library/treehasChild> ?var11 .
+   ?var4 <https://glyconnect.expasy.org/rdf/structures#baseName> "dman-HEX-1:5"^^<http://www.w3.org/2001/XMLSchema#string> .
+   ?var11 <https://archive.org/services/purl/domain/modular_ontology_design_library/treehasChild> ?var12 .
+   ?var12 <https://glyconnect.expasy.org/rdf/structures#composition> "Hex"^^<http://www.w3.org/2001/XMLSchema#string> .
+   ?var8 <https://glyconnect.expasy.org/rdf/structures#baseName> "dglc-HEX-1:5"^^<http://www.w3.org/2001/XMLSchema#string> .
+   ?var15 <https://archive.org/services/purl/domain/modular_ontology_design_library/treehasParent> ?var14 .
+   ?var15 <https://glyconnect.expasy.org/rdf/structures#hasSubstituent> ?var20 .
+   ?var12 <https://archive.org/services/purl/domain/modular_ontology_design_library/treehasParent> ?var11 .
+   ?var8 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://glyconnect.expasy.org/rdf/structures#Base> .
+   ?var17 <https://glyconnect.expasy.org/rdf/structures#subName> "n-acetyl"^^<http://www.w3.org/2001/XMLSchema#string> .
+   ?var17 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://glyconnect.expasy.org/rdf/structures#Substituent> .
+   ?var20 <https://glyconnect.expasy.org/rdf/structures#subName> "n-acetyl"^^<http://www.w3.org/2001/XMLSchema#string> .
+   ?var20 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://glyconnect.expasy.org/rdf/structures#Substituent> .
+   ?var7 <https://glyconnect.expasy.org/rdf/structures#baseName> "dglc-HEX-1:5"^^<http://www.w3.org/2001/XMLSchema#string> .
+   ?var18 <https://glyconnect.expasy.org/rdf/structures#subAnomerConnection> "1"^^<http://www.w3.org/2001/XMLSchema#string> .
+   ?var21 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://glyconnect.expasy.org/rdf/structures#Substituent> .
+   ?var13 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://glyconnect.expasy.org/rdf/structures#Residue> .
+   ?var14 <https://archive.org/services/purl/domain/modular_ontology_design_library/treehasChild> ?var15 .
+   ?var3 <https://glyconnect.expasy.org/rdf/structures#baseName> "dman-HEX-1:5"^^<http://www.w3.org/2001/XMLSchema#string> .
+   ?var9 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://glyconnect.expasy.org/rdf/structures#ResidueRoot> .
+   ?var14 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://glyconnect.expasy.org/rdf/structures#Residue> .
+   ?var6 <https://glyconnect.expasy.org/rdf/structures#baseName> "dman-HEX-1:5"^^<http://www.w3.org/2001/XMLSchema#string> .
+   ?var10 <https://glyconnect.expasy.org/rdf/structures#hasSubstituent> ?var18 .
+   ?var11 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://glyconnect.expasy.org/rdf/structures#Residue> .
+   ?var10 <https://glyconnect.expasy.org/rdf/structures#composition> "HexNAc"^^<http://www.w3.org/2001/XMLSchema#string> .
+   ?var4 <https://glyconnect.expasy.org/rdf/structures#baseAnomerConnection> "1"^^<http://www.w3.org/2001/XMLSchema#string> .
+   ?var13 <https://glyconnect.expasy.org/rdf/structures#hasSubstituent> ?var19 .
+   ?var18 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://glyconnect.expasy.org/rdf/structures#Substituent> .
+   ?var16 <https://glyconnect.expasy.org/rdf/structures#composition> "HexNAc"^^<http://www.w3.org/2001/XMLSchema#string> .
+   ?var5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://glyconnect.expasy.org/rdf/structures#Base> .
+   ?var15 <https://glyconnect.expasy.org/rdf/structures#composition> "HexNAc"^^<http://www.w3.org/2001/XMLSchema#string> .
+   ?var16 <https://glyconnect.expasy.org/rdf/structures#hasBase> ?var8 .
+   ?var2 <https://glyconnect.expasy.org/rdf/structures#baseAnomerConnection> "1"^^<http://www.w3.org/2001/XMLSchema#string> .
+   ?var4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://glyconnect.expasy.org/rdf/structures#Base> .
+   ?var3 <https://glyconnect.expasy.org/rdf/structures#baseAnomerConnection> "1"^^<http://www.w3.org/2001/XMLSchema#string> .
+   FILTER (?var10 != ?var11)
+   FILTER (?var10 != ?var12)
+   FILTER (?var10 != ?var13)
+   FILTER (?var10 != ?var14)
+   FILTER (?var10 != ?var15)
+   FILTER (?var10 != ?var16)
+   FILTER (?var10 != ?var9)
+   FILTER (?var11 != ?var12)
+   FILTER (?var11 != ?var13)
+   FILTER (?var11 != ?var14)
+   FILTER (?var11 != ?var15)
+   FILTER (?var11 != ?var16)
+   FILTER (?var11 != ?var9)
+   FILTER (?var12 != ?var13)
+   FILTER (?var12 != ?var14)
+   FILTER (?var12 != ?var15)
+   FILTER (?var12 != ?var16)
+   FILTER (?var12 != ?var9)
+   FILTER (?var13 != ?var14)
+   FILTER (?var13 != ?var15)
+   FILTER (?var13 != ?var16)
+   FILTER (?var13 != ?var9)
+   FILTER (?var14 != ?var15)
+   FILTER (?var14 != ?var16)
+   FILTER (?var14 != ?var9)
+   FILTER (?var15 != ?var16)
+   FILTER (?var15 != ?var9)
+   FILTER (?var16 != ?var9)
+   FILTER NOT EXISTS {?glycanbag <https://glyconnect.expasy.org/rdf/structures#hasItemRoot> ?var9}
+    FILTER NOT EXISTS{?var13 modl:treehasParent/modl:treehasChild ?varChild . FILTER(?varChild != ?var13)}
+}
+ORDER BY ASC(xsd:integer(?glycanid))

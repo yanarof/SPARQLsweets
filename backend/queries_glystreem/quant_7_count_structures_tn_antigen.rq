@@ -1,0 +1,49 @@
+#title: Count structures tn antigen
+#comment: Count of all di-sialyl Tn antigen type structures % Query 3.7
+
+PREFIX glystreem: <https://glyconnect.expasy.org/rdf/structures#>
+PREFIX modl: <https://archive.org/services/purl/domain/modular_ontology_design_library/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+### How many di-sialyl Tn Antigen structure? ###
+select (count(distinct ?root) as ?root_count) where{
+    ?root a glystreem:ResidueRoot .
+    ?root glystreem:hasBase ?base1 ;
+    glystreem:hasSubstituent ?subst1 ;
+    # ?second = Gal
+    modl:treehasChild ?second ;
+    # ?third = NeuAc attached to GalNAc
+    modl:treehasChild ?third .
+
+    ?base1 glystreem:baseName "dgal-HEX-1:5" .
+
+    ?second glystreem:hasBase ?base2 .
+    ?base2 glystreem:baseName "dgal-HEX-1:5" .
+    ?third glystreem:hasBase ?base3 .
+    ?base3 glystreem:baseName "dgro-dgal-NON-2:6|1:a|2:keto|3:d" .
+    ?third glystreem:hasSubstituent ?subst3 .
+    ?subst3 glystreem:subName "n-acetyl" .
+
+    # ?fourth = NeuAc attached to Gal
+    ?second modl:treehasChild ?fourth .
+    ?fourth glystreem:hasBase ?base4 .
+    ?base4 glystreem:baseName "dgro-dgal-NON-2:6|1:a|2:keto|3:d" .
+    ?fourth glystreem:hasSubstituent ?subst4 .
+    ?subst4 glystreem:subName "n-acetyl" .
+
+    FILTER NOT EXISTS # MINUS
+    {
+    ?fourth modl:treehasChild ?another .
+    }
+
+    FILTER NOT EXISTS # MINUS
+    {
+    ?third modl:treehasChild ?yetanother .
+    }
+
+    FILTER NOT EXISTS # MINUS
+    {
+        ?second modl:treehasChild ?fourth .
+        ?second modl:treehasChild ?anotherChild .
+        filter (?fourth != ?anotherChild)
+    }
+}

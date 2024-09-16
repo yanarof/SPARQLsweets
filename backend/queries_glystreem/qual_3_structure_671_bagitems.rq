@@ -1,0 +1,15 @@
+#title: Structure 671 bagitems
+#comment: Show the undefined sections (bag items) for structure 671 % Query 2.3
+
+PREFIX glyconnect: <https://glyconnect.expasy.org/rdf/structures#>
+PREFIX modl: <https://archive.org/services/purl/domain/modular_ontology_design_library/>
+
+describe ?bag where {
+    ?glycan a glyconnect:Glycan .
+    ?glycan glyconnect:id "671"^^xsd:string .
+    ?glycan glyconnect:hasGlycanBag ?glycanbag671 .
+    ?glycanbag671 a glyconnect:GlycanBag .
+    ?bag modl:bagitemOf ?glycanbag671 .
+   }
+
+# NOTE: change shellscript to “-H accept:text/plain” instead of “text/csv”

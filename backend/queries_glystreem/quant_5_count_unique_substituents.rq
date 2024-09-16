@@ -1,0 +1,11 @@
+#title: Count unique substituents
+#comment: Count of all unique substituent types % Query 3.5
+
+PREFIX glystreem: <https://glyconnect.expasy.org/rdf/structures#>
+
+select distinct ?name where {
+    ?root a glystreem:Residue .
+    ?root glystreem:hasSubstituent ?subst1 .
+    ?subst1 glystreem:subName ?name .
+} order by (?name)
+

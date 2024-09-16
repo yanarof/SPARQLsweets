@@ -1,0 +1,6 @@
+{
+    "id": "glyconnect",
+    "title": "Glyconnect",
+    "url": "https://glyconnect.expasy.org/sparql",
+    "default_query": "000_default.rq"
+}

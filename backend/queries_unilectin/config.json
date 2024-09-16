@@ -1,0 +1,6 @@
+{
+    "id": "unilectin",
+    "title": "Unilectin",
+    "url": "https://unilectin.unige.ch/sparql",
+    "default_query": "000_default.rq"
+}

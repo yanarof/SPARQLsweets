@@ -1,0 +1,15 @@
+#title: Count glycans residueroot
+#comment: Count of all glycans that have a ResidueRoot % Query 3.2(c)
+
+PREFIX glystreem: <https://glyconnect.expasy.org/rdf/structures#>
+PREFIX modl: <https://archive.org/services/purl/domain/modular_ontology_design_library/>
+
+select (count(distinct ?glycanid) as ?glycan_count) where
+{
+    ?glycan a glystreem:Glycan ;
+        glystreem:id ?glycanid ;
+        glystreem:hasResidueSet ?residueset .
+        ?residue a glystreem:ResidueRoot ;
+        modl:bagitemOf ?residueset ;
+        glystreem:hasSubstituent ?subst01 .
+FILTER NOT EXISTS {?residue glystreem:hasBase ?base01}}

@@ -1,0 +1,10 @@
+#title: Count structures glycan
+#comment: Count of all structures that have associated Glycan % Query 3.14 (a)
+
+PREFIX glystreem: <https://glyconnect.expasy.org/rdf/structures#>
+
+select (count (distinct ?glycanid) as ?countid ) WHERE
+{
+    ?glycan a glystreem:Glycan ;
+        glystreem:id ?glycanid .
+}

@@ -1,0 +1,25 @@
+#title: get fold and iupac for lectin
+#comment: starting from the :Lectin, we go through the ontology to get the binding domains that are of type "b-trefoil" and that do have a bindingDomain
+PREFIX : <https://unilectin.unige.ch/rdf/unilectin3D/wikipage#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?bindingDomain ?fold_name ?iupac WHERE
+{
+    ?lectin a :Lectin . #a lectin-object
+	?lectin :lectin_contains_Bindingdomain ?bindingDomain.
+    ?bindingDomain :bindingdomain_hasIDPDB ?pdb.
+    ?bindingDomain :bindingdomain_isFamily ?family.
+    ?family :family_name ?family_name. #get the family_name string
+	?family :family_belongsToClass ?class.
+    ?class :class_belongsToFold ?fold.
+    ?fold :fold_name ?fold_name.
+    FILTER(CONTAINS(LCASE(?fold_name), "trefoil"))
+	?bindingDomain :bindingdomain_hasLigand ?ligand.
+    ?ligand :ligand_hasIUPAC ?iupac.
+	?ligand :ligand_hasGlycoCT ?glycoct.
+    FILTER (strlen(str(?iupac)) > 0) #only lectins that do have a iupac
+}
+

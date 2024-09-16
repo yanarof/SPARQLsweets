@@ -1,0 +1,32 @@
+#title: Olinked monosaccharides
+#comment: Pull out only O-linked monosaccharides % Query 2.6
+
+PREFIX modl: <https://archive.org/services/purl/domain/modular_ontology_design_library/>
+PREFIX glystreem: <https://glyconnect.expasy.org/rdf/structures#>
+
+select distinct ?id where
+{
+  ?root a glystreem:Glycan .
+  ?root glystreem:hasGlycanCore ?core01 .
+  ?core01 a glystreem:GlycanCore .
+  ?root glystreem:id ?id .
+  ?root glystreem:glycan_type ?olink .
+  # FILTER(?olink = "O-Linked" || ?olink = "O-Linked/C-linked")
+  FILTER(contains(?olink, "O-Linked"))
+
+  FILTER NOT EXISTS # MINUS
+  {
+    ?root glystreem:glycan_type ?olink .
+    FILTER(contains(?olink, "N-Linked"))
+  }
+
+  ?core01 glystreem:hasCoreRoot ?coreroot01 .
+  ?coreroot01 a glystreem:ResidueRoot .
+
+  FILTER NOT EXISTS # MINUS
+  {
+    ?coreroot01 modl:treehasDescendant ?desc01 .
+    ?desc01 glystreem:hasBase ?base01 .
+  }
+
+}ORDER BY ASC(?id)

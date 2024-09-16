@@ -1,0 +1,9 @@
+#title: Default
+#comment: Default query
+
+PREFIX : <https://unilectin.unige.ch/rdf/unilectin3D/wikipage#>
+SELECT ?lectin WHERE {
+    ?lectin a :Lectin
+} LIMIT 10
+
+

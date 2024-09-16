@@ -1,0 +1,25 @@
+#title: OLinked core1 chained Sialic Acid
+#comment: Does the database contain any O-linked Core 1 with two sialyl acids consecutively linked? % Query 2.5
+
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX modl: <https://archive.org/services/purl/domain/modular_ontology_design_library/>
+PREFIX glystreem: <https://glyconnect.expasy.org/rdf/structures#>
+select distinct ?glycan where
+{
+    ?glycan a glystreem:ResidueRoot .
+    ?glycan glystreem:hasBase ?base01 .
+    ?glycan glystreem:hasSubstituent ?sub01 .
+    ?base01 glystreem:baseName "dgal-HEX-1:5" .
+    ?glycan modl:treehasChild ?res2 .
+    ?res2 glystreem:hasBase ?base02 .
+    ?base02 glystreem:baseName "dgal-HEX-1:5" .
+    ?res2 modl:treehasDescendant ?substructure .
+    ?substructure a glystreem:Residue .
+    ?substructure glystreem:hasBase ?sub_base01 .
+    ?sub_base01 glystreem:baseName "dgro-dgal-NON-2:6|1:a|2:keto|3:d" .
+    ?substructure modl:treehasChild ?substructure02 .
+    ?substructure02 glystreem:hasBase ?sub_base02 .
+    ?sub_base02 glystreem:baseName "dgro-dgal-NON-2:6|1:a|2:keto|3:d" .
+    FILTER NOT EXISTS
+    {?res2 glystreem:hasSubstituent ?sub02}
+}

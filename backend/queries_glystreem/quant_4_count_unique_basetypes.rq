@@ -1,0 +1,9 @@
+#title: Count unique basetypes
+#comment: Count of all unique base types % Query 3.4 (b)
+
+PREFIX glystreem: <https://glyconnect.expasy.org/rdf/structures#>
+
+select distinct ?name where {
+    ?base1 a glystreem:Base .
+    ?base1 glystreem:baseName ?name .
+}

@@ -1,0 +1,12 @@
+#title: Count structures man root
+#comment: Count of all structures that start with Mannose % Query 3.9
+
+PREFIX glystreem: <https://glyconnect.expasy.org/rdf/structures#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+select (count(distinct ?glycanid) as ?glycanid_count) where
+{
+    ?glycan a glystreem:Glycan ;
+    glystreem:id ?glycanid ;
+    glystreem:hasGlycanCore/glystreem:hasCoreRoot/glystreem:hasBase/glystreem:baseName "dman-HEX-1:5" .
+}

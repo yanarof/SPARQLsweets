@@ -1,0 +1,14 @@
+#title: Count unique substituents single residue
+#comment: Count of all unique substituent types that are a single residue (not part of a composed residue) % Query 3.6
+
+PREFIX glystreem: <https://glyconnect.expasy.org/rdf/structures#>
+
+select distinct ?name where {
+    ?root a glystreem:Residue .
+    ?root glystreem:hasSubstituent ?subst1 .
+    minus {
+        ?root glystreem:hasBase ?base1 .
+    }
+    ?subst1 glystreem:subName ?name .
+}order by ?name
+

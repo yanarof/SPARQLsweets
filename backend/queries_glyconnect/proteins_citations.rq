@@ -1,0 +1,19 @@
+#title:GlycoProtein_UniProt_Reference
+#comment:Show glycoproteins, UniProt ID and the associated reference 
+#comment:
+#comment:The glycoprotein ID refers to GlyConnect ID. https://glyconnect.expasy.org/all/proteins/1661 (replace with prot ID of interest)
+#comment:The reference ID refers to GlyConnect ID. https://glyconnect.expasy.org/all/references/2909 (replace with ref ID of interest)
+PREFIX xsd:<http://www.w3.org/2001/XMLSchema#>
+PREFIX faldo:<http://biohackathon.org/resource/faldo#>
+PREFIX glyco:<http://purl.jp/bio/12/glyco/conjugate#>
+PREFIX glycan:<http://purl.jp/bio/12/glyco/glycan#>
+
+SELECT DISTINCT ?glycoprotein ?isoform ?citation WHERE 
+{
+    ?refconjugate glyco:has_protein_part ?glycoprotein .
+    ?refconjugate glycan:published_in ?citation .
+    ?glycoprotein glyco:glycosylated_at ?specificglycosite .
+    ?specificglycosite faldo:location ?glycosite .
+    ?glycosite faldo:reference ?isoform .
+}
+ORDER BY ?isoform

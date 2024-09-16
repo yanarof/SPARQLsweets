@@ -1,0 +1,6 @@
+{
+    "id": "glystreem",
+    "title": "GlySTreeM",
+    "url": "https://glyconnect.expasy.org/glystreem/sparql",
+    "default_query": "000_default.rq"
+}

@@ -1,0 +1,33 @@
+#title: lectin origin starts with
+#comment: find a lectin whose origin is a Virus
+
+PREFIX : <https://unilectin.unige.ch/rdf/unilectin3D/wikipage#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+#The ontology is ordered so that at the top, there's the :Lectin
+# that has originates from a :Species (:lectin_isSpecies)
+# that :Species has a :Origin (:species_isOrigin)
+
+SELECT ?lectin ?lectinid ?origin ?origin_name WHERE
+{
+    ?lectin a :Lectin . #a lectin-object
+    ?lectin :lectin_hasIDEU ?lectinid . #that lectin(object) has an id(string)
+    ?lectin :lectin_isSpecies ?species .
+    ?species :species_name ?species_name . #get :Species name
+    ?species :species_isOrigin ?origin .
+    ?origin :origin_name ?origin_name . #get :Origin name
+    FILTER(STRSTARTS(str(?origin_name), "Virus")) #filter for origin names that starts with "Virus"
+    FILTER (strlen(str(?lectinid)) > 0) #only lectins that do have an id
+}
+
+
+
+
+
+
+PREFIX : <http://unilectin.eu/unilectin3D#>
+SELECT ?lectin WHERE { ?lectin a :Lectin . }
+

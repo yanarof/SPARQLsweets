@@ -1,0 +1,17 @@
+#title: Structures with glcnac phosphate
+#comment: Display IDs for structures with exactly GlcNAC and phosphate % Query 2.2
+
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX glystreem: <https://glyconnect.expasy.org/rdf/structures#>
+PREFIX modl: <https://archive.org/services/purl/domain/modular_ontology_design_library/>
+
+select distinct ?root where {
+?root a glystreem:ResidueRoot .
+?root glystreem:hasBase ?base1 .
+?root glystreem:hasSubstituent ?subst1 .
+?base1 glystreem:baseName "dglc-HEX-1:5"^^xsd:string .
+
+?root modl:treehasChild ?s .
+?s glystreem:hasSubstituent ?subst2 .
+?subst2 glystreem:subName "phosphate"^^xsd:string .
+}

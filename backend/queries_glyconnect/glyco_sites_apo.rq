@@ -1,0 +1,29 @@
+#title:GlycoProtein_UniProt_sites_taxa
+#comment: Select all glycosylations sites of 'Beta-2-glycoprotein 1' (for all species)
+#comment:
+#comment: Modify this query by replcing 'Beta-2-glycoprotein 1' with your protein name of choice at the indicated place in the query
+#comment:
+#comment:The glycoprotein ID refers to GlyConnect ID. https://glyconnect.expasy.org/all/proteins/1661 (replace with prot ID of interest)
+#comment:The isoform ID refers to UniProt ID. https://www.uniprot.org/uniprotkb/A0A075B7F1/entry (replace with UniProt ID of interest)
+PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#>
+PREFIX faldo:<http://biohackathon.org/resource/faldo#>
+PREFIX glyco:<http://purl.jp/bio/12/glyco/conjugate#>
+PREFIX glycan:<http://purl.jp/bio/12/glyco/glycan#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+
+SELECT DISTINCT ?glycoprotein ?glycoprotein_name ?isoform ?isoform_id ?position ?taxon_name
+WHERE {
+    ?glycoprotein rdfs:label ?glycoprotein_name .
+    ?glycosite faldo:reference ?isoform .
+    ?glycosite faldo:position ?position .
+    ?specificglycosite faldo:location ?glycosite .
+    ?glycoprotein glyco:glycosylated_at ?specificglycosite .
+    ?refconjugate glyco:has_protein_part ?glycoprotein .
+    ?refconjugate glycan:is_from_source ?source .
+    ?source glycan:has_taxon ?taxon .
+    ?taxon rdfs:label ?taxon_name .
+    BIND(REPLACE(STR(?isoform), "http://purl.uniprot.org/isoforms/", "", "i") AS ?isoform_id)
+    # REPLACE PROTEIN NAME IN THE FOLLWING LINE
+    FILTER REGEX(STR(?glycoprotein_name), "Beta-2-glycoprotein 1", "i") .
+    }
+    ORDER BY ?position ?glycoprotein ?isoform

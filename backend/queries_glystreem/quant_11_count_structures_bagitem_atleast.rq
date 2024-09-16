@@ -1,0 +1,17 @@
+#title: Count Structures bagitem at least
+#comment: Count of all structures that have from (at least) 1 to 9 undefined sections (bag items) % Query 3.11
+
+PREFIX glystreem: <https://glyconnect.expasy.org/rdf/structures#>
+PREFIX modl: <https://archive.org/services/purl/domain/modular_ontology_design_library/>
+
+select (count(distinct ?glycan) as ?glycan_count) where
+{
+    select ?glycan (count(distinct ?bag_number) as ?count_bag)  where
+    {
+        ?glycan a glystreem:Glycan .
+        ?glycan glystreem:hasGlycanBag ?glycanbag .
+        ?bag_number modl:bagitemOf ?glycanbag .
+    } group by ?glycan
+    HAVING (?count_bag >= 1)
+}
+#(Change “Having(?count_bag >= *)” to whatever count you want to check)

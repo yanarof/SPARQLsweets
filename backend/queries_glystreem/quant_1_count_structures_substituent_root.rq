@@ -1,0 +1,9 @@
+#title: Count structures substituent root
+#comment: Count of all structures that only have a substituent in the root node % Query 3.1 (b)
+
+PREFIX glystreem: <https://glyconnect.expasy.org/rdf/structures#>
+
+select (count(distinct ?root) as ?root_count) where {
+    ?root a glystreem:ResidueRoot .
+    ?root glystreem:hasSubstituent ?subst1 .
+    FILTER NOT EXISTS {?root glystreem:hasBase ?base1 .}}
